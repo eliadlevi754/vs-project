@@ -1,0 +1,50 @@
+﻿body {
+    background: url("/pictures/background_image.png");
+}
+h1{
+    color:white;
+}
+h4{
+    color:white;
+}
+.button-r {
+    
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 32px;
+    font-weight: bold;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    border-radius: 32px;
+}
+.button-r:hover {
+    transform: scale(1.1);
+    
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.button-r-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 50px;
+    margin-top: 40px;
+}
+.button {
+    background-color: #4285F4;
+}
+    .button:hover {
+        background: linear-gradient(45deg, #4285F4, #6898e8);
+    }
+.buttong {
+    background-color: #25D366;
+}
+
+    .buttong:hover {
+        background: linear-gradient(45deg, #25D366, #38c76d);
+    }

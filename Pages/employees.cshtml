@@ -1,0 +1,44 @@
+﻿@page
+@model vs_project.Pages.employeesModel
+@{
+}
+@if (Model.List != null && Model.List.Count > 0)
+{
+    <table id="AllPeopleTable" class='table table-bordered table-striped'>
+        <tr>
+            <th>ID</th>
+            <th> User Name</th>
+            <th>Address</th>
+            <th>Salary</th>
+            <th>Manager</th>
+            <th>Project</th>
+            <th>Manager/ Regular</th>
+
+        </tr>
+
+        @foreach (Model.Person person in Model.List)
+        {
+            <tr>
+                <td>@person.Id</td>
+                <td>@person.username</td>
+                <td>@person.address</td>
+                <td>@person.salary</td>
+                <td>@person.manager</td>
+                <td>@person.project</td>
+                <td>
+                    <div class="d-flex justify-content-center gap-2">
+
+                        <form method="post" asp-page-handler="ToggleAdministratorRegular" style="display:inline;">
+                            <input type="hidden" name="AdministratorToToggle" value="@person.Id" />
+                            <button type="submit" class="btn btn-light btn-sm"
+                                    onclick="return confirm('Are you sure you want to change');">
+                                @person.ismanager
+                            </button>
+                        </form>
+                    </div>
+                </td>
+                
+            </tr>
+        }
+    </table>
+}

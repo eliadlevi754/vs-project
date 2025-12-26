@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>vs_project</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Pages\log in.cshtml.cs~RFf16753e.TMP" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Data.OleDb" Version="9.0.10" />
+  </ItemGroup>
+
+</Project>
