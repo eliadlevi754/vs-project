@@ -21,9 +21,11 @@ namespace vs_project.Pages
             OleDbConnection con = new(connectionString);
 
             // בניית פקודת SQL
-            string SQLStr = $"SELECT * FROM [users] WHERE [username] = '{userName}' AND password = '{password}';";
+            string SQLStr = "SELECT * FROM [users] WHERE [username] = ? AND password = ?;";
             OleDbCommand cmd = new(SQLStr, con);
-
+            
+            cmd.Parameters.AddWithValue("?", userName);
+            cmd.Parameters.AddWithValue("?", password);
             // בניית DataSet
             DataSet ds = new DataSet();
 
