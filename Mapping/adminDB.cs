@@ -16,7 +16,10 @@ namespace vs_project.mapping
         public People SelectAllPeople()
         {
             People people = new People();
-            const string sql = "SELECT * FROM [employess];";
+           // "SELECT employees.Id, employees.username, employees.address, employees.salary, employees.manager, employees.project, employees.isManager " +
+           //     "FROM Courses INNER JOIN Person ON Courses.ResponsibleTeacher=Person.Id;";
+
+            const string sql = "SELECT employess.מזהה, employess.username, employess.address, employess.salary, users.Pname FROM employess INNER JOIN users ON employess.username = users.username;";
             using var connection = new OleDbConnection(connectionString);
             using var command = new OleDbCommand(sql, connection);
 
@@ -33,9 +36,7 @@ namespace vs_project.mapping
                     username = reader["username"].ToString(),
                     address = reader["address"].ToString(),
                     salary = float.Parse(reader["salary"].ToString()),
-                    manager = reader["manager"].ToString(),
-                    ismanager = bool.Parse(reader["isManager"].ToString()),
-                    project = reader["project"].ToString(),
+                    Pname = reader["Pname"].ToString()
                 };
                 people.Add(person);
             }

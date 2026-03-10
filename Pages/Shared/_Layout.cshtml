@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿@*<!DOCTYPE html>
 <html lang="en">
 @{
     var sessionValue = Context.Session.GetString("username");
@@ -77,6 +77,99 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
 
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+*@
+<!DOCTYPE html>
+<html lang="en">
+@{
+        // Grab session data once at the top
+        var sessionUser = Context.Session.GetString("username");
+        var firstName = Context.Session.GetString("Fname");
+        var isAdmin = Context.Session.GetString("admin");
+}
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - vs_project</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/vs_project.styles.css" asp-append-version="true" />
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                @{if (sessionUser != null)
+                {
+                    <a class="navbar-brand" asp-page="/Index">@sessionUser</a>
+                }
+                else
+                {
+                    <a class="navbar-brand" asp-page="/Index">vs_project</a>
+                }}
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item"><a class="nav-link text-dark" asp-page="/Index">Home</a></li>
+                        <li class="nav-item"><a class="nav-link text-dark" asp-page="/contact">Contact Us</a></li>
+                        <li class="nav-item"><a class="nav-link text-dark" asp-page="/about us">About Us</a></li>
+
+                        <div class="dropdown">
+                            <a class="btn dropdown-toggle text-dark" href="#" data-bs-toggle="dropdown">Products</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" asp-page="/product1">Product 1</a></li>
+                                <li><a class="dropdown-item" asp-page="/product2">Product 2</a></li>
+                                <li><a class="dropdown-item" asp-page="/product3">Product 3</a></li>
+                            </ul>
+                        </div>
+                        
+
+                        @if (isAdmin == "True")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-danger fw-bold" asp-page="/employees">Admin: Employees</a>
+                            </li>
+                        }
+                    </ul>
+
+                    <ul class="navbar-nav">
+                        @if (string.IsNullOrEmpty(sessionUser))
+                        {
+                            <div class="dropdown">
+                                <a class="btn dropdown-toggle text-dark" href="#" data-bs-toggle="dropdown">Join Us</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" asp-page="/log in">Login</a></li>
+                                    <li><a class="dropdown-item" asp-page="/SIgnUp">Sign Up</a></li>
+                                    <li><a class="dropdown-item" asp-page="/logout">Log Out</a></li>
+                                </ul>
+                            </div>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <span class="nav-link text-primary">Hi, @firstName!</span>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-page="/Logout">Logout</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

@@ -2,7 +2,7 @@
 @model vs_project.Pages.SIgnUpModel
 @{
 }
-
+<script src="~/js/checkValidity.js"></script>
 <html>
 <head>
     <style>
@@ -42,6 +42,15 @@
             transform: scale(1.1)
         }
 
+        label {
+            color: white;
+            margin-left: 45%;
+        }
+        h6{
+            color: red;
+            text-align: center;
+        }
+        }
     </style>
 </head>
 <body>
@@ -55,11 +64,20 @@
         {
             <h6 class="error-message">@Model.msg</h6>
         }
+        <div>
 
-        <input type="text" id="username" name="username" placeholder="Enter new username" required>
-        <input type="password" id="password" name="password" placeholder="Enter new password" required>
-        <input type="text" id="Pname" name="Pname" placeholder="Enter first name" required>
-        <input type="text" id="Fname" name="Fname" placeholder="Enter last name" required>
+            <input type="text" id="username" name="username" placeholder="Enter new username" onkeyup="checkLogInValidity(this, 'login-msg')" required />
+            <span id="login-msg" class="messages"></span>
+            <input type="password" id="password" name="password" placeholder="Enter new password" onkeyup="checkLogInValidity(this, 'login-msg')" required />
+            <span id="login-msg" class="messages"></span>
+            <input type="text" id="Pname" name="Pname" placeholder="Enter first name" required />
+            <input type="text" id="Fname" name="Fname" placeholder="Enter last name" required />
+            
+        </div>
+        <div>
+            <label for="isAdmin"> Are you an admin?</label>
+            <input type="checkbox" id="isAdmin" asp-for="isAdmin" placeholder="Are you an admin?" />
+        </div>
         <button type="submit" class="button g">Sign Up</button>
     </form>
 </body>

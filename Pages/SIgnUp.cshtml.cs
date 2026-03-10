@@ -23,6 +23,12 @@ namespace vs_project.Pages
         //[BindProperty]
         //public login person { get; set; }
         public string msg { get; set; }
+        [BindProperty]
+        public bool isAdmin { get; set; }
+
+        [BindProperty]
+        public bool vehicle1 { get; set; }
+
         public void OnGet()
         {
         }
@@ -42,6 +48,15 @@ namespace vs_project.Pages
             adapter.Fill(ds, "names");
 
             int count = ds.Tables[0].Rows.Count;
+            /*if (isAdmin)
+            {
+                TempData["isAdmin"] = isAdmin;
+                TempData["username"] = username;
+                TempData["password"] = password;
+                TempData["Pname"] = Pname;
+                TempData["Fname"] = Fname;
+                return Redirect("verifyAdmin");
+            }*/
             if (count > 0)
             {
                 //msg.Style.Add("color", "red");
@@ -56,6 +71,9 @@ namespace vs_project.Pages
                     dr["password"] = password;
                     dr["Fname"] = Fname;
                     dr["Pname"] = Pname;
+                    bool aaa=  isAdmin;
+                    HttpContext.Session.SetString("admin", "True");
+                    //dr["admin"] = isAdmin ? 0:-1;
                     ds.Tables["names"].Rows.Add(dr);
 
 
@@ -67,7 +85,7 @@ namespace vs_project.Pages
                     adapter.Update(ds, "names");
 
                     return Redirect("/Index");
-                }
+                }   
                 catch
                 {
                     return Page();

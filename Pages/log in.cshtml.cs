@@ -50,7 +50,7 @@ namespace vs_project.Pages
                 HttpContext.Session.SetString("Username", user.username);
                 HttpContext.Session.SetString("FirstName", user.Pname);
                 HttpContext.Session.SetString("LastName", user.Fname);
-
+                HttpContext.Session.SetString("admin", user.admin.ToString());
                 return RedirectToPage("/Index");
             }
             else
