@@ -39,8 +39,9 @@ namespace vs_project.Pages
             OleDbConnection con = new(connectionString);
 
             //check if there is
-            string SQLStr = $"SELECT * FROM [users] WHERE [username] = '{username}'";
+            string SQLStr = "SELECT * FROM [users] WHERE [username] = ?";
             OleDbCommand cmd = new(SQLStr, con);
+            cmd.Parameters.AddWithValue("?", username);
 
             DataSet ds = new DataSet();
 
@@ -71,16 +72,16 @@ namespace vs_project.Pages
                     dr["password"] = password;
                     dr["Fname"] = Fname;
                     dr["Pname"] = Pname;
-                    bool aaa=  isAdmin;
-                    HttpContext.Session.SetString("admin", "True");
-                    //dr["admin"] = isAdmin ? 0:-1;
+                    //bool aaa=  isAdmin;
+                    HttpContext.Session.SetString("admin", isAdmin.ToString());
+                    dr["admin"] = isAdmin ? -1:0;
                     ds.Tables["names"].Rows.Add(dr);
 
 
                     OleDbCommandBuilder builder = new OleDbCommandBuilder(adapter);
                     builder.QuotePrefix = "[";
                     builder.QuoteSuffix = "]";
-                    adapter.UpdateCommand = builder.GetInsertCommand();
+                    //adapter.UpdateCommand = builder.GetInsertCommand();
 
                     adapter.Update(ds, "names");
 
