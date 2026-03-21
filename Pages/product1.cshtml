@@ -1,9 +1,24 @@
 ﻿@page
 @model vs_project.Pages.product1Model
 @{
+    Layout = "_Layout";
 }
-<body>
-    <h1>this product is still in development.</h1>
-    <a class="button button-home" href="/Index">Home</a>
 
-</body>
+<link rel="stylesheet" href="/css/sim.css" />
+
+<!-- Use a unique ID to override any global 'container' padding -->
+<div id="simulation-page-wrapper" class="split-screen-wrapper">
+    <div class="control">
+        <h3>Control</h3>
+        <button type="button" class="sim-btn" onclick="addPlanet()">Add Planet</button>
+
+    </div>
+
+    <div class="sim" id="simContainer">
+        <canvas id="simCanvas" width="1920" height="1080"></canvas>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="/js/sim1.js"></script>
+}
