@@ -5,11 +5,12 @@
         {
             public int Id { get; set; }
             public string username { get; set; }
-            public string address { get; set; }
-            public float salary { get; set; }
-            public string manager { get; set; }
-            public bool ismanager { get; set; }
-            public string project { get; set; }
+            public int assignments_submitted { get; set; }
+            public int assignments_due { get; set; }
+            public bool math { get; set; }
+            public bool physics { get; set; }
+            public int last_math { get; set; }
+            public int last_phys { get; set; }
             public string Pname { get; set; }
     }
         public class People : List<Person>

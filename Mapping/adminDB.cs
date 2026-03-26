@@ -19,7 +19,7 @@ namespace vs_project.mapping
            // "SELECT employees.Id, employees.username, employees.address, employees.salary, employees.manager, employees.project, employees.isManager " +
            //     "FROM Courses INNER JOIN Person ON Courses.ResponsibleTeacher=Person.Id;";
 
-            const string sql = "SELECT employess.מזהה, employess.username, employess.address, employess.salary, users.Pname FROM employess INNER JOIN users ON employess.username = users.username;";
+            const string sql = "SELECT students.מזהה, students.username, students.assignments_submitted, students.assignments_due, students.math, students.physics, students.last_math, students.last_phys, users.Pname FROM students INNER JOIN users ON students.username = users.username;";
             using var connection = new OleDbConnection(connectionString);
             using var command = new OleDbCommand(sql, connection);
 
@@ -34,8 +34,12 @@ namespace vs_project.mapping
                 {
                     Id = int.Parse(reader["מזהה"].ToString()),
                     username = reader["username"].ToString(),
-                    address = reader["address"].ToString(),
-                    salary = float.Parse(reader["salary"].ToString()),
+                    assignments_submitted = int.Parse(reader["assignments_submitted"].ToString()),
+                    assignments_due = int.Parse(reader["assignments_due"].ToString()),
+                    math = bool.Parse(reader["math"].ToString()),
+                    physics = bool.Parse(reader["math"].ToString()),
+                    last_math = int.Parse(reader["last_math"].ToString()),
+                    last_phys = int.Parse(reader["last_phys"].ToString()),
                     Pname = reader["Pname"].ToString()
                 };
                 people.Add(person);
