@@ -15,4 +15,9 @@
     <PackageReference Include="System.Data.OleDb" Version="9.0.10" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\uploads\assignments\math\" />
+    <Folder Include="wwwroot\uploads\assignments\physics\" />
+  </ItemGroup>
+
 </Project>
