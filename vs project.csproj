@@ -16,8 +16,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\uploads\assignments\math\" />
     <Folder Include="wwwroot\uploads\assignments\physics\" />
+    <Folder Include="wwwroot\uploads\submissions\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="AppData\login.accdb">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

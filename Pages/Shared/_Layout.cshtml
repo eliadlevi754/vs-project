@@ -1,10 +1,12 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 @{
-        // Grab session data once at the top
-        var sessionUser = Context.Session.GetString("username");
-        var firstName = Context.Session.GetString("Fname");
-        var isAdmin = Context.Session.GetString("admin");
+    // Grab session data once at the top
+    var sessionUser = Context.Session.GetString("Username");
+    var firstName = Context.Session.GetString("FirstName");
+    var isAdmin = Context.Session.GetString("admin");
+    var math = Context.Session.GetString("math");
+    var physics = Context.Session.GetString("physics");
 }
 <head>
     <meta charset="utf-8" />
@@ -51,6 +53,9 @@
                             <li class="nav-item">
                                 <a class="nav-link text-danger fw-bold" asp-page="/admin/add_assignment">add assignment</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-danger fw-bold" asp-page="/admin/checkAssignments">check assignments</a>
+                            </li>
                         }
                         else if(isAdmin == "False"){
                             <li class="nav-item">
@@ -60,6 +65,19 @@
                                 <a class="nav-link text-primary fw-bold" asp-page="/students/submitAssignments">my assignments</a>
                             </li>
                         }
+                        @if (physics == "True")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-primary fw-bold" asp-page="/students/general_assignment">Physics</a>
+                            </li>
+                        }
+                        @if (math == "True")
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-primary fw-bold" asp-page="/students/general_assignment">Math</a>
+                            </li>
+                        }
+                        
                     </ul>
 
                     <ul class="navbar-nav">

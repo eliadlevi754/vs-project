@@ -1,0 +1,47 @@
+﻿@page
+@model vs_project.Pages.admin.checkAssignmentsModel
+@{
+}
+@{
+    var sessionAdmin = HttpContext.Session.GetString("admin");
+    if (sessionAdmin != "True")
+    {
+        Response.Redirect("/Index");
+    }
+}
+@if (Model.unGraded.Count == 0)
+{
+    <div class="alert alert-info py-4 text-center">
+        <h4>No assignments to grade!</h4>
+    </div>
+}
+else
+{
+    <div class="row">
+        @foreach (var task in Model.unGraded)
+        {
+            <div class="col-md-6 col-lg-4 mb-3">
+                <div class="card shadow-sm h-100">
+                    <div class="card-body d-flex flex-column">
+                        <h5 class="card-title">@task.Title</h5>
+
+                        <h6 class="card-subtitle mb-3 text-muted">Student ID: @task.studentID</h6>
+
+                        <a href="~/@task.submissionPath"
+                           target="_blank"
+                           class="btn btn-outline-primary mt-auto mb-2">
+                            View Submitted File
+                        </a>
+
+                        <a asp-page="/admin/gradeAssignment"
+                           asp-route-id="@task.submissionID"
+                           class="btn btn-success">
+                            Grade Submission
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+</div>

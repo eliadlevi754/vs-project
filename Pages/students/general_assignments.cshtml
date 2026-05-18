@@ -1,0 +1,64 @@
+﻿@page
+@model vs_project.Pages.students.general_assignmentsModel
+@{
+    ViewData["Title"] = "Assignment Details";
+    var isAdmin = HttpContext.Session.GetString("admin");
+}
+
+<div class="container mt-5">
+    @if (Model.CurrentAssignment != null)
+    {
+        <div class="card shadow-lg">
+            <!-- Header colored by Subject -->
+            <div class="card-header @(Model.CurrentAssignment.Subject == "math" ? "bg-primary" : "bg-danger") text-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h2 class="mb-0">@Model.CurrentAssignment.Title</h2>
+                    <span class="badge bg-light text-dark text-uppercase">@Model.CurrentAssignment.Subject</span>
+                </div>
+            </div>
+
+            <div class="card-body p-4">
+                <h4 class="text-muted border-bottom pb-2">Instructions</h4>
+                <!-- pre-wrap keeps the teacher's line breaks/formatting -->
+                <p class="card-text mt-3" style="white-space: pre-wrap; font-size: 1.1rem;">
+                    @Model.CurrentAssignment.Description
+                </p>
+
+                @if (Model.CurrentAssignment.FileName != "no file")
+                {
+                    <div class="mt-5 p-3 bg-light border rounded d-flex align-items-center justify-content-between">
+                        <div>
+                            <strong>Attached File:</strong>
+                            <span class="ms-2 text-secondary">@Model.CurrentAssignment.FileName</span>
+                        </div>
+                        <!-- Pathing using the subject subfolders we set up earlier -->
+                        <a href="/uploads/assignments/@Model.CurrentAssignment.Subject.ToLower()/@Model.CurrentAssignment.FileName"
+                           class="btn btn-success"
+                           download>
+                            📥 Download File
+                        </a>
+                    </div>
+                }
+            </div>
+            @if (isAdmin == "False")
+            {
+                <form method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="assignmentId" value="@Model.CurrentAssignment.ID" />
+                    <div class="mb-3">
+                        <label class="form-label">Upload Solution (PDF/Word/Image)</label>
+                        <input type="file" name="Upload" class="form-control" />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            }
+
+            <div class="card-footer bg-white">
+                <a asp-page="/Index" class="btn btn-outline-secondary">Back to Dashboard</a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning">Assignment not found.</div>
+    }
+</div>

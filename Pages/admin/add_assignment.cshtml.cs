@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Data.OleDb;
 using System.Diagnostics.Metrics;
@@ -26,6 +26,7 @@ namespace vs_project.Pages.admin
                 string onlyFileName = Path.GetFileNameWithoutExtension(originalFileName);
                 filename = originalFileName;
                 string uploadDir = "";
+                
                 if (subject.ToLower() == "physics")
                 {
                     uploadDir = Path.Combine(_env.WebRootPath, "uploads", "assignments", "physics");
@@ -49,29 +50,72 @@ namespace vs_project.Pages.admin
             }
             using (var conn = new OleDbConnection(Imp_Data.ConString))
             {
-                string sqlUpdate = "";
                 conn.Open();
-                string sql = "INSERT INTO Assignments (Title, Description, FileName, subject) VALUES (@t, @d, @f, @s)";
+
+                // 1. Insert the new assignment
+                int newAssignmentId = 0;
+                string sql = "INSERT INTO Assignments (Title, [Description], [FileName], [subject]) VALUES (?, ?, ?, ?)";
                 using (var cmd = new OleDbCommand(sql, conn))
                 {
-                    cmd.Parameters.AddWithValue("@t", Title);
-                    cmd.Parameters.AddWithValue("@d", Description ?? "");
-                    cmd.Parameters.AddWithValue("@f", filename);
-                    cmd.Parameters.AddWithValue("@s", subject);
+                    cmd.Parameters.AddWithValue("?", Title);
+                    cmd.Parameters.AddWithValue("?", Description ?? "");
+                    cmd.Parameters.AddWithValue("?", filename);
+                    cmd.Parameters.AddWithValue("?", subject);
                     cmd.ExecuteNonQuery();
+
+                    // 2. Get the ID of the assignment we just created
+                    cmd.CommandText = "SELECT @@IDENTITY";
+                    newAssignmentId = (int)cmd.ExecuteScalar();
                 }
+
                 if (subject.ToLower() == "physics")
                 {
-                    sqlUpdate = "UPDATE students SET assignments_due = assignments_due + 1 WHERE students.physics = True";
-                }
-                else if (subject.ToLower() == "math")
-                {
-                    sqlUpdate = "UPDATE students SET assignments_due = assignments_due + 1 WHERE students.math = True";
-                }
+                    // 3. Update the counter
+                    string sqlUpdate = "UPDATE students SET assignments_due = assignments_due + 1 WHERE physics = True";
                     using (var cmdUpdate = new OleDbCommand(sqlUpdate, conn))
                     {
                         cmdUpdate.ExecuteNonQuery();
                     }
+
+                    // 4. Link students to this specific assignment
+                    
+                    string addAssignment = @"INSERT INTO [student_assignments] ([studentID], [assignmentID], [isDone])
+                            SELECT [Students].[ID], ?, 0 
+                            FROM [Students] 
+                            WHERE [Students].[physics] = True";
+
+                    using (var cmdAdd = new OleDbCommand(addAssignment, conn))
+                    {
+                        cmdAdd.Parameters.AddWithValue("?", newAssignmentId);
+                        int rowsAffected = cmdAdd.ExecuteNonQuery();
+
+                        
+                    }
+                }
+                if (subject.ToLower() == "math")
+                {
+                    // 3. Update the counter
+                    string sqlUpdate = "UPDATE students SET assignments_due = assignments_due + 1 WHERE math = True";
+                    using (var cmdUpdate = new OleDbCommand(sqlUpdate, conn))
+                    {
+                        cmdUpdate.ExecuteNonQuery();
+                    }
+
+                    // 4. Link students to this specific assignment
+                    // This is where you were missing the parameter!
+                    string addAssignment = @"INSERT INTO [student_assignments] ([studentID], [assignmentID], [isDone])
+                            SELECT [Students].[ID], ?, 0 
+                            FROM [Students] 
+                            WHERE [Students].[math] = True";
+
+                    using (var cmdAdd = new OleDbCommand(addAssignment, conn))
+                    {
+                        cmdAdd.Parameters.AddWithValue("?", newAssignmentId);
+                        int rowsAffected = cmdAdd.ExecuteNonQuery();
+
+                        // Optional: add a breakpoint here to see if rowsAffected is > 0
+                    }
+                }
             }
             return RedirectToPage("/employees");
         }

@@ -1,4 +1,39 @@
 ﻿@page
 @model vs_project.Pages.students.myProgressModel
 @{
+    ViewData["Title"] = "myProgess";
 }
+
+<div class="container mt-5">
+    <h2 style ="color: white;">Pending Tasks</h2>
+
+    @if (Model.unDone.Count == 0)
+    {
+        <div class="alert alert-info py-4 text-center">
+            <h4>✨ All clear!</h4>
+            <p class="mb-0">You've submitted everything.</p>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var task in Model.unDone)
+            {
+                <div class="col-md-6 col-lg-4 mb-3">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">@task.Title</h5>
+                            <h6 class="card-subtitle mb-3 text-muted">Subject: @task.Subject</h6>
+                            
+                            <a asp-page="/students/general_assignments" 
+                               asp-route-id="@task.ID" 
+                               class="btn btn-primary mt-auto">
+                                Open Assignment
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

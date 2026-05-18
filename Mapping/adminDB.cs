@@ -19,7 +19,7 @@ namespace vs_project.mapping
            // "SELECT employees.Id, employees.username, employees.address, employees.salary, employees.manager, employees.project, employees.isManager " +
            //     "FROM Courses INNER JOIN Person ON Courses.ResponsibleTeacher=Person.Id;";
 
-            const string sql = "SELECT students.מזהה, students.username, students.assignments_submitted, students.assignments_due, students.math, students.physics, students.last_math, students.last_phys, users.Pname FROM students INNER JOIN users ON students.username = users.username ORDER BY students.username ASC;";
+            const string sql = "SELECT students.ID, students.username, students.assignments_submitted, students.assignments_due, students.math, students.physics, students.last_math, students.last_phys, users.Pname FROM students INNER JOIN users ON students.username = users.username ORDER BY students.username ASC;";
             using var connection = new OleDbConnection(connectionString);
             using var command = new OleDbCommand(sql, connection);
 
@@ -32,7 +32,7 @@ namespace vs_project.mapping
                 Person person = new Person();
                 person = new Person
                 {
-                    Id = int.Parse(reader["מזהה"].ToString()),
+                    Id = int.Parse(reader["ID"].ToString()),
                     username = reader["username"].ToString(),
                     assignments_submitted = int.Parse(reader["assignments_submitted"].ToString()),
                     assignments_due = int.Parse(reader["assignments_due"].ToString()),

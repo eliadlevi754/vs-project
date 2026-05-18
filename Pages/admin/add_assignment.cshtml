@@ -2,6 +2,13 @@
 @model vs_project.Pages.admin.add_assignmentModel
 @{
 }
+@{
+    var sessionAdmin = HttpContext.Session.GetString("admin");
+    if (sessionAdmin != "True")
+    {
+        Response.Redirect("/Index");
+    }
+}
 <div class="container mt-5">
     <div class="card shadow p-4">
         <h2 class="text-primary mb-4">Add New Assignment</h2>
